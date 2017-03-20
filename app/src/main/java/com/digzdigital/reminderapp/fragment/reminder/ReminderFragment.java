@@ -12,6 +12,11 @@ import android.view.ViewGroup;
 import com.digzdigital.reminderapp.R;
 import com.digzdigital.reminderapp.data.db.DbHelper;
 import com.digzdigital.reminderapp.data.db.model.ReminderItem;
+import com.digzdigital.reminderapp.eventbus.EventType;
+import com.digzdigital.reminderapp.eventbus.FirebaseEvent;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -30,7 +35,6 @@ public class ReminderFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    @Inject
     private DbHelper dbHelper;
 
 
@@ -82,6 +86,12 @@ private RecyclerView reminderRv;
         return view;
     }
 
+    private void loadReminders(){
+    reminderItems = dbHelper.getOnlineReminders();
+        doRest();
+    }
+
+
     protected void doRest() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         reminderRv.setLayoutManager(linearLayoutManager);
@@ -128,5 +138,10 @@ private RecyclerView reminderRv;
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFirebaseEvent(FirebaseEvent event){
+        if (event.type == EventType.REMINDER)loadReminders();
     }
 }

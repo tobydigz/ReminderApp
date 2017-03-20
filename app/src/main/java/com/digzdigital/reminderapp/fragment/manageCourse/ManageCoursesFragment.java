@@ -13,13 +13,19 @@ import android.view.ViewGroup;
 import com.digzdigital.reminderapp.R;
 import com.digzdigital.reminderapp.data.db.DbHelper;
 import com.digzdigital.reminderapp.data.db.model.Course;
+import com.digzdigital.reminderapp.eventbus.EventType;
+import com.digzdigital.reminderapp.eventbus.FirebaseEvent;
 import com.digzdigital.reminderapp.fragment.reminder.ReminderListAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,7 +48,6 @@ public class ManageCoursesFragment extends Fragment {
     @Inject
     public DbHelper dbHelper;
     private RecyclerView courseRV;
-    private ManageCourseListAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,7 +64,7 @@ public class ManageCoursesFragment extends Fragment {
      * @return A new instance of fragment ManageCoursesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ManageCoursesFragment newInstance(String param1, String param2) {
+    public static Fragment newInstance(String param1, String param2) {
         ManageCoursesFragment fragment = new ManageCoursesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -84,6 +89,7 @@ public class ManageCoursesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_manage_courses, container, false);
         courseRV = (RecyclerView)view.findViewById(R.id.courseRv);
         courses = dbHelper.getAllCourses();
+        dbHelper.queryForCourses();
         return view;
     }
 
@@ -117,24 +123,37 @@ public class ManageCoursesFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
+        void onCourseClicked(Course course);
     }
 
     protected void doRest() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        courseRV.setLayoutManager(linearLayoutManager);
+        courseRV.setLayoutManager(new StickyHeaderLayoutManager());
         if (courses != null) {
             if (courses.size() > 0) {
-                ManageCourseListAdapter adapter = new ManageCourseListAdapter(courses);
+                ManageCourseListAdapter adapter = new ManageCourseListAdapter();
+                adapter.setCourses(courses);
                 courseRV.setAdapter(adapter);
-
-                adapter.setOnItemClickListener(new ManageCourseListAdapter.MyClickListener() {
-                    @Override
-                    public void onItemClick(int position, View v) {
-//                        Handle click whatever
-                    }
-                });
             }
         }
+    }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFirebaseEvent(FirebaseEvent event){
+        if (event.type == EventType.COURSES){
+            courses = dbHelper.getAllCourses();
+            doRest();
+        }
     }
 }

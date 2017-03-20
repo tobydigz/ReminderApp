@@ -1,7 +1,5 @@
 package com.digzdigital.reminderapp.fragment.manageCourse;
 
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,74 +10,104 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.digzdigital.reminderapp.R;
 import com.digzdigital.reminderapp.data.db.model.Course;
-import com.digzdigital.reminderapp.data.db.model.ReminderItem;
+
+import org.zakariya.stickyheaders.SectioningAdapter;
 
 import java.util.ArrayList;
 
-import io.realm.RealmResults;
 
+public class ManageCourseListAdapter extends SectioningAdapter {
 
-public class ManageCourseListAdapter extends RecyclerView.Adapter<ManageCourseListAdapter.ViewHolder> {
-    private static MyClickListener myClickListener;
     private ArrayList<Course> courses;
+    private ArrayList<Section> sections = new ArrayList<>();
 
-    public ManageCourseListAdapter(ArrayList<Course> courses) {
+    public ManageCourseListAdapter() {
+
+    }
+
+    public void setCourses(ArrayList<Course> courses){
         this.courses = courses;
-    }
+        sections.clear();
 
-    public Course getItem(int position) {
-        return courses.get(position);
-    }
+        int alpha = 0;
+        String dayText;
+        Section currentSection = null;
+        for(Course course : courses){
+          if (course.getDayInt() != alpha){
+              if (currentSection !=null){
+                  sections.add(currentSection);
+              }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_manage_courses, parent, false);
-        return new ViewHolder(v);
-    }
+              currentSection = new Section();
+              alpha = course.getDayInt();
+              currentSection.day = course.getDay();
 
-    @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        Course course = getItem(position);
+          }
 
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public int getItemCount() {
-        return courses.size();
-    }
-
-
-    public interface MyClickListener {
-        public void onItemClick(int position, View v);
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView courseImage;
-        TextView courseTitle, courseVenue, courseTime;
-        ViewHolder(View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(this);
+            if (currentSection !=null){
+                currentSection.courses.add(course);
+            }
         }
 
-
-        @Override
-        public void onClick(View v) {
-            myClickListener.onItemClick(getAdapterPosition(), v);
-
-        }
-
-
-    }
-    public void setOnItemClickListener(MyClickListener myClickListener) {
-        this.myClickListener = myClickListener;
+        sections.add(currentSection);
+        notifyAllSectionsDataSetChanged();
     }
 
-    private TextDrawable createDrawable(String name){
+    @Override
+    public int getNumberOfSections() {
+        return sections.size();
+    }
+
+    @Override
+    public int getNumberOfItemsInSection(int sectionIndex) {
+        return sections.get(sectionIndex).courses.size();
+    }
+
+    @Override
+    public boolean doesSectionHaveHeader(int sectionIndex) {
+        return true;
+    }
+
+    @Override
+    public boolean doesSectionHaveFooter(int sectionIndex) {
+        return false;
+    }
+
+    @Override
+    public ItemViewHolder onCreateItemViewHolder(ViewGroup parent, int itemType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = inflater.inflate(R.layout.item_manage_courses, parent, false);
+        return new ItemViewHolder(v);
+    }
+
+    @Override
+    public HeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent, int headerType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = inflater.inflate(R.layout.header_manage_courses, parent, false);
+        return new HeaderViewHolder(v);
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(SectioningAdapter.HeaderViewHolder viewHolder, int sectionIndex, int headerUserType) {
+        Section section = sections.get(sectionIndex);
+        HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
+
+        headerViewHolder.dayText.setText(section.day);
+    }
+
+    @Override
+    public void onBindItemViewHolder(SectioningAdapter.ItemViewHolder viewHolder, int sectionIndex, int itemIndex, int itemUserType) {
+        Section section = sections.get(sectionIndex);
+        ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
+        Course course = section.courses.get(itemIndex);
+
+        itemViewHolder.courseTitle.setText(course.getCourseTitle());
+        itemViewHolder.courseVenue.setText(course.getVenue());
+        itemViewHolder.courseTime.setText(course.getStartTime().toString());
+        itemViewHolder.courseImage.setImageDrawable(createDrawable(course.getCourseTitle()));
+    }
+
+    private TextDrawable createDrawable(String name) {
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
         int color1 = generator.getRandomColor();
         TextDrawable.IBuilder builder = TextDrawable.builder()
@@ -88,6 +116,35 @@ public class ManageCourseListAdapter extends RecyclerView.Adapter<ManageCourseLi
                 .endConfig()
                 .roundRect(10);
         return builder.build(name, color1);
+    }
+
+    private class Section {
+        String day;
+        ArrayList<Course> courses = new ArrayList<>();
+    }
+
+    public class ItemViewHolder extends SectioningAdapter.ItemViewHolder {
+
+        ImageView courseImage;
+        TextView courseTitle, courseVenue, courseTime;
+
+        public ItemViewHolder(View itemView) {
+            super(itemView);
+            courseImage = (ImageView) itemView.findViewById(R.id.courseImage);
+            courseTitle = (TextView) itemView.findViewById(R.id.courseTitle);
+            courseTime = (TextView) itemView.findViewById(R.id.courseTime);
+            courseVenue = (TextView) itemView.findViewById(R.id.courseVenue);
+        }
+    }
+
+    public class HeaderViewHolder extends SectioningAdapter.HeaderViewHolder {
+
+        TextView dayText;
+
+        public HeaderViewHolder(View itemView) {
+            super(itemView);
+            dayText = (TextView) itemView.findViewById(R.id.titleTextView);
+        }
     }
 }
 

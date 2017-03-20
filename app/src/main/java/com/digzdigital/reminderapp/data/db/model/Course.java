@@ -5,9 +5,11 @@ import java.util.Date;
 
 import io.realm.RealmObject;
 
-public class Course extends RealmObject{
+// import io.realm.RealmObject;
 
-    private long id;
+public class Course extends RealmObject {
+
+    private String id;
     private String courseCode;
     private String courseTitle;
     private String venue;
@@ -19,11 +21,11 @@ public class Course extends RealmObject{
     public Course() {
     }
 
-    public long getId() {
+    public String  getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -77,6 +79,10 @@ public class Course extends RealmObject{
                 break;
         }
         return dayOfWeek;
+    }
+
+    public int getDayInt(){
+        return day;
     }
 
     public void setDay(int day) {

@@ -40,7 +40,6 @@ public class TimetableFragment extends Fragment {
     private FragmentTimetableBinding binding;
     private OnFragmentInteractionListener listener;
     private ArrayList<RowObject> rowObjects;
-    @Inject
     private DbHelper dbHelper;
 
     public TimetableFragment() {

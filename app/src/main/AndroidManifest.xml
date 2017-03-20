@@ -18,6 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <service android:name=".notification.MyFirebaseInstanceIDService"/>
+        <service android:name=".notification.MyFirebaseMessagingService"/>
     </application>
 
 </manifest>

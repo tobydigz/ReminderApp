@@ -1,27 +1,26 @@
 package com.digzdigital.reminderapp.data.db;
 
+
 import com.digzdigital.reminderapp.data.db.model.Course;
 import com.digzdigital.reminderapp.data.db.model.ReminderItem;
 import com.digzdigital.reminderapp.data.db.model.RowObject;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
+import com.digzdigital.reminderapp.data.db.model.User;
 
 import java.util.ArrayList;
 
-import io.realm.RealmResults;
-
-
 public interface DbHelper {
 
-    // ArrayList<ReminderItem> getAllLocalReminders();
-    // void putLocalReminder(ReminderItem reminderItem);
-    // ReminderItem getLocalReminderItem(long key);
-    // void deleteLocalReminder(long key);
     void createCourse(Course course);
+    void queryForCourses();
     ArrayList<Course> getAllCourses();
-    boolean deleteCourse(long key);
+    boolean deleteCourse(String key);
     boolean updateCourse(Course course);
     void queryForReminders();
     ArrayList<ReminderItem> getOnlineReminders();
     ArrayList<RowObject> getRowObjects();
+    void updateUser(User user);
+    void queryForUserInfo(String id);
+    User getUserInfo();
+    void queryForUsers();
+    ArrayList<User> getUsers();
 }

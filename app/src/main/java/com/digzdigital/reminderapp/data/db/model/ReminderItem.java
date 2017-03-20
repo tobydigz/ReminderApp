@@ -3,12 +3,12 @@ package com.digzdigital.reminderapp.data.db.model;
 
 import java.util.Date;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+// import io.realm.RealmObject;
+// import io.realm.annotations.PrimaryKey;
 
-public class ReminderItem extends RealmObject {
+public class ReminderItem /*extends RealmObject*/ {
 
-    @PrimaryKey
+    // @PrimaryKey
     private long id;
     private String title;
     private String message;
