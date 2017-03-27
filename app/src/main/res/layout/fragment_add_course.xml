@@ -22,6 +22,24 @@
             app:mtf_image="@drawable/ic_book_black_24dp">
 
             <EditText
+                android:id="@+id/courseCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Course code"
+                android:textColor="#333"
+                android:textColorHint="#666"
+                android:textSize="15sp"
+                tools:ignore="HardcodedText"/>
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mtf_animationDuration="1000"
+            app:mtf_cardCollapsedHeight="4dp"
+            app:mtf_image="@drawable/ic_book_black_24dp">
+
+            <EditText
                 android:id="@+id/courseTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,16 +99,17 @@
                 style="@style/TextAppearance.AppCompat.Body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TO"
+                android:text="Hours: "
                 android:textColor="#fff"/>
 
-            <Button
-                android:id="@+id/courseEndTime"
-                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="End time: 8:00 AM"
-                android:textColor="#fff"/>
+           <EditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:inputType="number"
+               android:hint="Duration"
+               android:textColorHint="@color/white"
+               android:textColor="@color/white"
+               android:id="@+id/duration"/>
         </LinearLayout>
 
         <LinearLayout

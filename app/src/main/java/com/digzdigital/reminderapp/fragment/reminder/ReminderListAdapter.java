@@ -1,6 +1,5 @@
 package com.digzdigital.reminderapp.fragment.reminder;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,7 @@ import com.digzdigital.reminderapp.R;
 import com.digzdigital.reminderapp.data.db.model.ReminderItem;
 
 import java.util.ArrayList;
-
+import java.util.Calendar;
 
 
 public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapter.ViewHolder> {
@@ -42,7 +41,13 @@ public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapte
         holder.reminderTitle.setText(reminderItem.getTitle());
         holder.reminderVenue.setText(reminderItem.getVenue());
         holder.reminderTime.setText(reminderItem.getDate().toString());
-        holder.reminderImage.setImageDrawable(createDrawable(reminderItem.getSenderID()));
+        if (reminderItem.getDate().after(Calendar.getInstance().getTime())) {
+            holder.reminderImage.setImageDrawable(createDrawable("Upcoming"));
+        } else {
+            holder.reminderImage.setImageDrawable(createDrawable("Done"));
+
+        }
+
     }
 
     @Override
@@ -55,6 +60,20 @@ public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapte
         return reminderItems.size();
     }
 
+    public void setOnItemClickListener(MyClickListener myClickListener) {
+        this.myClickListener = myClickListener;
+    }
+
+    private TextDrawable createDrawable(String name) {
+        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+        int color1 = generator.getRandomColor();
+        TextDrawable.IBuilder builder = TextDrawable.builder()
+                .beginConfig()
+                .withBorder(4)
+                .endConfig()
+                .roundRect(10);
+        return builder.build(name, color1);
+    }
 
     public interface MyClickListener {
         public void onItemClick(int position, View v);
@@ -63,6 +82,7 @@ public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView reminderImage;
         TextView reminderTitle, reminderVenue, reminderTime;
+
         ViewHolder(View itemView) {
             super(itemView);
             reminderImage = (ImageView) itemView.findViewById(R.id.reminderImage);
@@ -80,20 +100,6 @@ public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapte
         }
 
 
-    }
-    public void setOnItemClickListener(MyClickListener myClickListener) {
-        this.myClickListener = myClickListener;
-    }
-
-    private TextDrawable createDrawable(String name){
-        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
-        int color1 = generator.getRandomColor();
-        TextDrawable.IBuilder builder = TextDrawable.builder()
-                .beginConfig()
-                .withBorder(4)
-                .endConfig()
-                .roundRect(10);
-        return builder.build(name, color1);
     }
 }
 

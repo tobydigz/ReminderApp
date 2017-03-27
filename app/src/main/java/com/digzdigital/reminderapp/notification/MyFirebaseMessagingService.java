@@ -12,18 +12,14 @@ import com.digzdigital.reminderapp.activity.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-/**
- * Created by Digz on 10/03/2017.
- */
-
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         if (remoteMessage.getNotification() != null) {
-            // String messageBody = remoteMessage.getNotification().getBody();
-            String messageBody = "New Reminder alert";
+            String messageBody = remoteMessage.getNotification().getBody();
+            // String messageBody = "New Reminder alert";
             sendNotification(messageBody);
         }
     }

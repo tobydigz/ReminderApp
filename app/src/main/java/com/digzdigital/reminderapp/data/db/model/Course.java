@@ -3,30 +3,17 @@ package com.digzdigital.reminderapp.data.db.model;
 
 import java.util.Date;
 
-import io.realm.RealmObject;
 
-// import io.realm.RealmObject;
+public class Course{
 
-public class Course extends RealmObject {
-
-    private String id;
     private String courseCode;
     private String courseTitle;
     private String venue;
     private int day;
     private Date startTime;
-    private Date endTime;
-    private int size;
+    private int duration;
 
     public Course() {
-    }
-
-    public String  getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getCourseCode() {
@@ -53,7 +40,10 @@ public class Course extends RealmObject {
         this.venue = venue;
     }
 
-    public String getDay() {
+    public int getDay(){
+        return day;
+    }
+    public String getDayText() {
         String dayOfWeek ="";
         switch (day){
             case 0:
@@ -77,6 +67,9 @@ public class Course extends RealmObject {
             case 6:
                 dayOfWeek = "Sunday";
                 break;
+            default:
+                dayOfWeek ="lol";
+                break;
         }
         return dayOfWeek;
     }
@@ -97,19 +90,11 @@ public class Course extends RealmObject {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public int getDuration() {
+        return duration;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
+    public void setDuration(long duration) {
+        this.duration = (int) duration;
     }
 }

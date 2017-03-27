@@ -5,11 +5,7 @@ package com.digzdigital.reminderapp.eventbus;
  */
 
 public enum EventType {
-    USER,
-    USERS,
-    NEW_MESSAGE,
-    FORUMS,
-    FORUM_MESSAGES,
     COURSES,
-    REMINDER
+    REMINDER,
+    TIMETABLE
 }

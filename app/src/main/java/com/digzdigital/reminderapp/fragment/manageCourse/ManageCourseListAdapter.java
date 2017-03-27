@@ -40,7 +40,7 @@ public class ManageCourseListAdapter extends SectioningAdapter {
 
               currentSection = new Section();
               alpha = course.getDayInt();
-              currentSection.day = course.getDay();
+              currentSection.day = course.getDayText();
 
           }
 

@@ -6,16 +6,14 @@ import java.util.Date;
 // import io.realm.RealmObject;
 // import io.realm.annotations.PrimaryKey;
 
-public class ReminderItem /*extends RealmObject*/ {
+public class ReminderItem {
 
-    // @PrimaryKey
-    private long id;
+    private String id;
     private String title;
     private String message;
     private Date date;
     private String venue;
     private String sender;
-    private String senderID;
 
     public ReminderItem() {
     }
@@ -28,11 +26,11 @@ public class ReminderItem /*extends RealmObject*/ {
         this.title = title;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -68,12 +66,4 @@ public class ReminderItem /*extends RealmObject*/ {
         this.sender = sender;
     }
 
-
-    public String getSenderID() {
-        return senderID;
-    }
-
-    public void setSenderID(String senderID) {
-        this.senderID = senderID;
-    }
 }

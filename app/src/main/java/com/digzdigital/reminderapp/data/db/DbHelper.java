@@ -4,23 +4,18 @@ package com.digzdigital.reminderapp.data.db;
 import com.digzdigital.reminderapp.data.db.model.Course;
 import com.digzdigital.reminderapp.data.db.model.ReminderItem;
 import com.digzdigital.reminderapp.data.db.model.RowObject;
-import com.digzdigital.reminderapp.data.db.model.User;
 
 import java.util.ArrayList;
 
 public interface DbHelper {
 
-    void createCourse(Course course);
-    void queryForCourses();
+    void createCourse(Course course, String userId);
+    void queryForCourses(String userId);
     ArrayList<Course> getAllCourses();
-    boolean deleteCourse(String key);
-    boolean updateCourse(Course course);
+    boolean deleteCourse(String key, String userId);
+    boolean updateCourse(Course course, String userId);
     void queryForReminders();
     ArrayList<ReminderItem> getOnlineReminders();
+    void queryForRowObjects(String userId);
     ArrayList<RowObject> getRowObjects();
-    void updateUser(User user);
-    void queryForUserInfo(String id);
-    User getUserInfo();
-    void queryForUsers();
-    ArrayList<User> getUsers();
 }

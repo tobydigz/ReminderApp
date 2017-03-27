@@ -1,5 +1,7 @@
 package com.digzdigital.reminderapp.activity;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,8 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,7 +19,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.digzdigital.reminderapp.R;
+import com.digzdigital.reminderapp.ReminderApplication;
 import com.digzdigital.reminderapp.data.db.DbHelper;
+import com.digzdigital.reminderapp.data.db.model.Course;
+import com.digzdigital.reminderapp.fragment.addCourse.AddCourseFragment;
+import com.digzdigital.reminderapp.fragment.manageCourse.ManageCoursesFragment;
+import com.digzdigital.reminderapp.fragment.reminder.ReminderFragment;
+import com.digzdigital.reminderapp.fragment.timetable.TimetableFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -29,20 +35,23 @@ import javax.inject.Inject;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FragmentManager fragmentManager;
-    private FirebaseAuth auth;
     @Inject
     public DbHelper dbHelper;
+    private FragmentManager fragmentManager;
+    private FirebaseAuth auth;
     private Fragment timetableFragment, coursesFragment;
+    private FirebaseUser user;
     private FirebaseAuth.AuthStateListener listener = new FirebaseAuth.AuthStateListener() {
         @Override
         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-            FirebaseUser user = firebaseAuth.getCurrentUser();
+            user = firebaseAuth.getCurrentUser();
             if (user != null) {
                 //Nigga signed in
 
                 FirebaseMessaging.getInstance().subscribeToTopic("reminders");
-// switchFragment();
+                if (getIntent().getExtras() != null) {
+                    switchFragment(getReminderFragment(), null);
+                }
 
             } else {
                 //Nigga signed out
@@ -56,6 +65,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ((ReminderApplication) getApplication()).getAppComponent().inject(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -77,11 +87,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (getIntent().getExtras() != null) {
-            //// TODO: 10/03/2017 switch fragment to reminders
-// switchFragment();
-        }
-        fragmentManager = getSupportFragmentManager();
+
+        fragmentManager = getFragmentManager();
         auth = FirebaseAuth.getInstance();
         auth.addAuthStateListener(listener);
     }
@@ -120,34 +127,55 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        /*if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_timetable) {
+            switchFragment(getTimetableFragment(), null);
+        } else if (id == R.id.nav_course) {
+            switchFragment(getCourseFragment(), null);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_reminder) {
+            switchFragment(getReminderFragment(), null);
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
+        } else if (id == R.id.nav_signout) {
+            auth.signOut();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    private Fragment getTimetableFragment() {
+        return new TimetableFragment();
+    }
+
+    private Fragment getCourseFragment() {
+        return ManageCoursesFragment.newInstance(user.getUid(), "");
+    }
+
+    private Fragment getAddCourseFragment() {
+        return AddCourseFragment.newInstance(user.getUid(), "");
+    }
+
+    private Fragment getReminderFragment() {
+        return new ReminderFragment();
+    }
+
     private void switchFragment(Fragment fragment, @Nullable String tag) {
         fragmentManager.beginTransaction()
                 .replace(R.id.content_main, fragment)
                 .addToBackStack(tag)
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                .commit();
+    }
+
+    private void switchFragmentNoStack(Fragment fragment) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_main, fragment)
+                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                 .commit();
     }
 
@@ -157,7 +185,21 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public DbHelper getDbHelper(){
+    public DbHelper getDbHelper() {
         return dbHelper;
+    }
+
+    public void onCancelClicked() {
+
+    }
+
+    public void onSaveClicked(Course course) {
+        dbHelper.updateCourse(course, user.getUid());
+        switchFragmentNoStack(getCourseFragment());
+
+    }
+
+    public void addNewCourse() {
+        switchFragmentNoStack(getAddCourseFragment());
     }
 }

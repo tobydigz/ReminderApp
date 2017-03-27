@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.digzdigital.reminderapp.R;
+import com.digzdigital.reminderapp.activity.MainActivity;
 import com.digzdigital.reminderapp.data.db.model.Course;
 import com.digzdigital.reminderapp.databinding.FragmentAddCourseBinding;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -30,10 +31,10 @@ public class AddCourseFragment extends Fragment implements View.OnClickListener,
     private String mParam1;
     private String mParam2;
     private FragmentAddCourseBinding binding;
-    private Date startTime, endTime;
+    private Date startTime;
+    private MainActivity mainActivity;
 
 private Course course = new Course();
-    private OnFragmentInteractionListener listener;
 
     public AddCourseFragment() {
         // Required empty public constructor
@@ -64,6 +65,7 @@ private Course course = new Course();
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mainActivity = (MainActivity)getActivity();
     }
 
     @Override
@@ -74,7 +76,6 @@ private Course course = new Course();
         binding.save.setOnClickListener(this);
         binding.cancel.setOnClickListener(this);
         binding.courseStartTime.setOnClickListener(this);
-        binding.courseEndTime.setOnClickListener(this);
         initSpinner();
         return binding.getRoot();
     }
@@ -87,39 +88,19 @@ private Course course = new Course();
         binding.daySelect.setOnItemSelectedListener(this);
     }
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            listener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        listener = null;
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.save:
-                listener.onSaveClicked(updateCourse());
+                mainActivity.onSaveClicked(updateCourse());
                 break;
             case R.id.cancel:
-                listener.onCancelClicked();
+                mainActivity.onCancelClicked();
                 break;
             case R.id.courseStartTime:
                 setTime("Set Start Time");
                 break;
-            case R.id.courseEndTime:
-                setTime("Set End Time");
-                break;
+
         }
     }
 
@@ -135,10 +116,11 @@ private Course course = new Course();
 
     private Course updateCourse() {
 
+        course.setCourseCode(binding.courseCode.getText().toString());
         course.setCourseTitle(binding.courseTitle.getText().toString());
         course.setVenue(binding.courseVenue.getText().toString());
         course.setStartTime(startTime);
-        course.setEndTime(endTime);
+        course.setDuration(Integer.parseInt(binding.duration.getText().toString()));
         return course;
     }
 
@@ -148,10 +130,6 @@ private Course course = new Course();
             case R.id.courseStartTime:
                 startTime = createTime(hourOfDay, minute);
                 binding.courseStartTime.setText(hourOfDay + ":" + minute);
-                break;
-            case R.id.courseEndTime:
-                endTime = createTime(hourOfDay, minute);
-                binding.courseEndTime.setText(hourOfDay + ":" + minute);
                 break;
         }
     }
@@ -185,10 +163,7 @@ private Course course = new Course();
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        void onCancelClicked();
-        void onSaveClicked(Course course);
-    }
+
 
 
 }
