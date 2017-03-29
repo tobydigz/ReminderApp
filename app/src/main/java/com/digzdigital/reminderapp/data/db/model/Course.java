@@ -1,19 +1,66 @@
 package com.digzdigital.reminderapp.data.db.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-public class Course{
 
+public class Course extends RealmObject implements Parcelable{
+
+    @PrimaryKey
+    private String id;
     private String courseCode;
     private String courseTitle;
     private String venue;
     private int day;
-    private Date startTime;
+    private int time;
     private int duration;
 
     public Course() {
+
+    }
+
+
+    public Course(Parcel in){
+        this.courseCode = in.readString();
+        this.courseTitle = in.readString();
+        this.venue = in.readString();
+        this.day = in.readInt();
+        this.time = in.readInt();
+        this.duration = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i){
+        parcel.writeString(courseCode);
+        parcel.writeString(courseTitle);
+        parcel.writeString(venue);
+        parcel.writeInt(day);
+        parcel.writeInt(time);
+        parcel.writeInt(duration);
+    }
+
+
+    public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>(){
+        @Override
+        public Course createFromParcel(Parcel parcel){
+            return new Course(parcel);
+        }
+
+        @Override
+        public Course[] newArray(int size) {
+            return new Course[size];
+        }
+    };
+
+    @Override
+    public int describeContents(){
+        return hashCode();
     }
 
     public String getCourseCode() {
@@ -82,19 +129,71 @@ public class Course{
         this.day = day;
     }
 
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
     public int getDuration() {
         return duration;
     }
 
     public void setDuration(long duration) {
         this.duration = (int) duration;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public String getStartTime(){
+            String header = "";
+            switch (day) {
+                case 1:
+                    header = "8:00 - 9:00";
+                    break;
+                case 2:
+                    header = "9:00 - 10:00";
+                    break;
+                case 3:
+                    header = "10:00 - 11:00";
+                    break;
+                case 4:
+                    header = "11:00 - 12:00";
+                    break;
+                case 5:
+                    header = "12:00 - 13:00";
+                    break;
+                case 6:
+                    header = "13:00 - 14:00";
+                    break;
+                case 7:
+                    header = "14:00 - 15:00";
+                    break;
+                case 8:
+                    header = "15:00 - 16:00";
+                    break;
+                case 9:
+                    header = "16:00 - 17:00";
+                    break;
+                case 10:
+                    header = "17:00 - 18:00";
+                    break;
+                case 11:
+                    header = "18:00 - 19:00";
+                    break;
+                case 12:
+                    header = "19:00 - 20:00";
+                    break;
+            }
+            return header;
+
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

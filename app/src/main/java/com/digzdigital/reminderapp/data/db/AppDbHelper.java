@@ -1,11 +1,12 @@
 package com.digzdigital.reminderapp.data.db;
 
+import android.content.Context;
+
 import com.digzdigital.reminderapp.data.db.model.Course;
 import com.digzdigital.reminderapp.data.db.model.ReminderItem;
 import com.digzdigital.reminderapp.data.db.model.RowObject;
 import com.digzdigital.reminderapp.eventbus.EventType;
 import com.digzdigital.reminderapp.eventbus.FirebaseEvent;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,6 +20,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+
 
 public class AppDbHelper implements DbHelper {
 
@@ -26,43 +31,32 @@ public class AppDbHelper implements DbHelper {
     private ArrayList<ReminderItem> reminders;
     private DatabaseReference databaseReference;
     private ArrayList<RowObject> rowObjects;
+    private Realm realm;
 
-    public AppDbHelper() {
+    public AppDbHelper(Context context) {
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
     }
 
+
+    @Override
+    public void createRealm(Context context){
+        Realm.init(context);
+        realm = Realm.getDefaultInstance();
+    }
     @Override
     public void createCourse(Course course, String userId) {
 
-        databaseReference.child(userId).child(course.getCourseCode()).setValue(course);
+        realm.beginTransaction();
+        realm.copyToRealm(course);
+        realm.commitTransaction();
+
     }
 
     @Override
-    public void queryForCourses(String userId) {
-        databaseReference.child(userId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                courses = null;
-                courses = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Course course = new Course();
-                    course.setCourseCode((String) snapshot.child("courseCode").getValue());
-                    course.setCourseTitle((String) snapshot.child("courseTitle").getValue());
-                    course.setVenue((String) snapshot.child("venue").getValue());
-                    // course.setDay((Integer) snapshot.child("day").getValue());
-                    course.setStartTime((Date) snapshot.child("startTime").getValue());
-                    course.setDuration((Long) snapshot.child("duration").getValue());
-                    courses.add(course);
-                }
-                postEvent(EventType.COURSES);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+    public RealmResults<Course> queryForCourses() {
+        RealmQuery<Course> query = realm.where(Course.class);
+        return query.findAll();
     }
 
     @Override
@@ -71,8 +65,11 @@ public class AppDbHelper implements DbHelper {
     }
 
     @Override
-    public boolean deleteCourse(String key, String userId) {
-        databaseReference.child(userId).child(key).removeValue();
+    public boolean deleteCourse(Course course) {
+        realm.beginTransaction();
+        Course realmCourse = realm.where(Course.class).equalTo("id", course.getId()).findAll().first();
+        realmCourse.deleteFromRealm();
+        realm.commitTransaction();
         return false;
     }
 
@@ -92,12 +89,12 @@ public class AppDbHelper implements DbHelper {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ReminderItem reminderItem = new ReminderItem();
                     reminderItem.setId(snapshot.getKey());
-                    reminderItem.setTitle((String)snapshot.child("title").getValue());
+                    reminderItem.setTitle((String) snapshot.child("title").getValue());
                     Date date = dateConverter((String) snapshot.child("date").getValue());
                     reminderItem.setDate(date);
-                    reminderItem.setMessage((String)snapshot.child("message").getValue());
-                    reminderItem.setVenue((String)snapshot.child("venue").getValue());
-                    reminderItem.setSender((String)snapshot.child("sender").getValue());
+                    reminderItem.setMessage((String) snapshot.child("message").getValue());
+                    reminderItem.setVenue((String) snapshot.child("venue").getValue());
+                    reminderItem.setSender((String) snapshot.child("sender").getValue());
                     reminders.add(reminderItem);
                 }
                 postEvent(EventType.REMINDER);
@@ -144,6 +141,7 @@ public class AppDbHelper implements DbHelper {
         String day = (String) android.text.format.DateFormat.format("dd", convertedDate); //20
         return dayOfTheWeek + " " + day + " " + stringMonth + " " + year;
     }
+
     @Override
     public ArrayList<ReminderItem> getOnlineReminders() {
         return null;
@@ -151,23 +149,27 @@ public class AppDbHelper implements DbHelper {
 
 
     @Override
-    public void queryForRowObjects(String userId){
-        if (courses==null)queryForCourses(userId);
+    public void queryForRowObjects() {
+        queryForCourses();
 
     }
-    private void createRowObjects(){
-        rowObjects = new ArrayList<>();
 
+    private ArrayList<RowObject> createRowObjects() {
+        RealmQuery<Course> query = realm.where(Course.class);
+        RealmResults<Course> results = query.findAll();
 
+        RowObjectsCreator creator = new RowObjectsCreator(results);
+        rowObjects = creator.getRows();
 
-        postEvent(EventType.TIMETABLE);
-
+        return rowObjects;
     }
+
+
     @Override
     public ArrayList<RowObject> getRowObjects() {
 
 
-        return rowObjects;
+        return createRowObjects();
     }
 
 

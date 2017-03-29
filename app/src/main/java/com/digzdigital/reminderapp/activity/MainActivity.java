@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ((ReminderApplication) getApplication()).getAppComponent().inject(this);
+        dbHelper.createRealm(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity
         return new ReminderFragment();
     }
 
-    private void switchFragment(Fragment fragment, @Nullable String tag) {
+    public void switchFragment(Fragment fragment, @Nullable String tag) {
         fragmentManager.beginTransaction()
                 .replace(R.id.content_main, fragment)
                 .addToBackStack(tag)
@@ -194,12 +195,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onSaveClicked(Course course) {
-        dbHelper.updateCourse(course, user.getUid());
+        dbHelper.createCourse(course, user.getUid());
         switchFragmentNoStack(getCourseFragment());
 
     }
 
     public void addNewCourse() {
         switchFragmentNoStack(getAddCourseFragment());
+    }
+
+    public void deleteCourse(Course course) {
+        dbHelper.deleteCourse(course);
+        switchFragmentNoStack(getCourseFragment());
     }
 }

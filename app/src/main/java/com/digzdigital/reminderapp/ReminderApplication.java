@@ -31,7 +31,7 @@ public class ReminderApplication extends Application {
     public AppComponent getAppComponent(){
         if (appComponent ==null){
             appComponent = DaggerAppComponent.builder()
-                    .appModule(new AppModule())
+                    .appModule(new AppModule(this))
                     .build();
         }
         return appComponent;

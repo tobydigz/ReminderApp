@@ -14,13 +14,14 @@ import com.digzdigital.reminderapp.data.db.DbHelper;
 import com.digzdigital.reminderapp.data.db.model.Course;
 import com.digzdigital.reminderapp.eventbus.EventType;
 import com.digzdigital.reminderapp.eventbus.FirebaseEvent;
+import com.digzdigital.reminderapp.fragment.editCourse.EditCourseFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 
-import java.util.ArrayList;
+import io.realm.RealmResults;
 
 
 /**
@@ -39,7 +40,7 @@ public class ManageCoursesFragment extends Fragment implements View.OnClickListe
     // TODO: Rename and change types of parameters
     private String userId;
     private String mParam2;
-    private ArrayList<Course> courses;
+    private RealmResults<Course> courses;
     private RecyclerView courseRV;
     private MainActivity activity;
     private Button addCourseButton;
@@ -86,8 +87,7 @@ public class ManageCoursesFragment extends Fragment implements View.OnClickListe
         courseRV = (RecyclerView) view.findViewById(R.id.courseRv);
         addCourseButton = (Button) view.findViewById(R.id.addCourse);
         addCourseButton.setOnClickListener(this);
-        courses = dbHelper.getAllCourses();
-        dbHelper.queryForCourses(userId);
+        courses = dbHelper.queryForCourses();
         return view;
     }
 
@@ -99,6 +99,13 @@ public class ManageCoursesFragment extends Fragment implements View.OnClickListe
                 ManageCourseListAdapter adapter = new ManageCourseListAdapter();
                 adapter.setCourses(courses);
                 courseRV.setAdapter(adapter);
+
+                adapter.setOnItemClickListener(new ManageCourseListAdapter.MyClickListener() {
+                    @Override
+                    public void onItemClick(int position, View v) {
+                        activity.switchFragment(EditCourseFragment.newInstance(courses.get(position)), null);
+                    }
+                });
             }
         }
     }
@@ -118,7 +125,6 @@ public class ManageCoursesFragment extends Fragment implements View.OnClickListe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFirebaseEvent(FirebaseEvent event) {
         if (event.type == EventType.COURSES) {
-            courses = dbHelper.getAllCourses();
             doRest();
         }
     }

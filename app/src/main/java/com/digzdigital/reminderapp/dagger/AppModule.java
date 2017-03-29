@@ -1,5 +1,7 @@
 package com.digzdigital.reminderapp.dagger;
 
+import android.content.Context;
+
 import com.digzdigital.reminderapp.ReminderApplication;
 import com.digzdigital.reminderapp.data.db.AppDbHelper;
 import com.digzdigital.reminderapp.data.db.DbHelper;
@@ -15,12 +17,19 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
-    public AppModule(){
+    private final ReminderApplication app;
+    public AppModule(ReminderApplication app){
+this.app = app;
+    }
 
+    @Provides
+    @Singleton
+    public Context providesContext(){
+        return app;
     }
 
     @Provides @Singleton
-    public DbHelper providesDbHelper(){
-        return new AppDbHelper();
+    public DbHelper providesDbHelper(Context context){
+        return new AppDbHelper(context);
     }
 }

@@ -15,17 +15,20 @@ import org.zakariya.stickyheaders.SectioningAdapter;
 
 import java.util.ArrayList;
 
+import io.realm.RealmResults;
+
 
 public class ManageCourseListAdapter extends SectioningAdapter {
 
-    private ArrayList<Course> courses;
+    private RealmResults<Course> courses;
     private ArrayList<Section> sections = new ArrayList<>();
 
+    private static MyClickListener myClickListener;
     public ManageCourseListAdapter() {
 
     }
 
-    public void setCourses(ArrayList<Course> courses){
+    public void setCourses(RealmResults<Course> courses){
         this.courses = courses;
         sections.clear();
 
@@ -103,7 +106,7 @@ public class ManageCourseListAdapter extends SectioningAdapter {
 
         itemViewHolder.courseTitle.setText(course.getCourseTitle());
         itemViewHolder.courseVenue.setText(course.getVenue());
-        itemViewHolder.courseTime.setText(course.getStartTime().toString());
+        itemViewHolder.courseTime.setText(course.getStartTime());
         itemViewHolder.courseImage.setImageDrawable(createDrawable(course.getCourseTitle()));
     }
 
@@ -123,7 +126,7 @@ public class ManageCourseListAdapter extends SectioningAdapter {
         ArrayList<Course> courses = new ArrayList<>();
     }
 
-    public class ItemViewHolder extends SectioningAdapter.ItemViewHolder {
+    public class ItemViewHolder extends SectioningAdapter.ItemViewHolder implements  View.OnClickListener{
 
         ImageView courseImage;
         TextView courseTitle, courseVenue, courseTime;
@@ -134,6 +137,12 @@ public class ManageCourseListAdapter extends SectioningAdapter {
             courseTitle = (TextView) itemView.findViewById(R.id.courseTitle);
             courseTime = (TextView) itemView.findViewById(R.id.courseTime);
             courseVenue = (TextView) itemView.findViewById(R.id.courseVenue);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            myClickListener.onItemClick(getAdapterPosition(), v);
         }
     }
 
@@ -145,6 +154,15 @@ public class ManageCourseListAdapter extends SectioningAdapter {
             super(itemView);
             dayText = (TextView) itemView.findViewById(R.id.titleTextView);
         }
+    }
+
+
+    public void setOnItemClickListener(MyClickListener myClickListener) {
+        this.myClickListener = myClickListener;
+    }
+
+    public interface MyClickListener {
+        public void onItemClick(int position, View v);
     }
 }
 
