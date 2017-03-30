@@ -5,9 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.orm.SugarRecord;
-import com.orm.dsl.Table;
-
-import java.util.Date;
 
 
 public class Course extends SugarRecord implements Parcelable{
@@ -144,40 +141,40 @@ public class Course extends SugarRecord implements Parcelable{
             String header = "";
             switch (day) {
                 case 1:
-                    header = "8:00 - 9:00";
+                    header = "8:00";
                     break;
                 case 2:
-                    header = "9:00 - 10:00";
+                    header = "9:00";
                     break;
                 case 3:
-                    header = "10:00 - 11:00";
+                    header = "10:00";
                     break;
                 case 4:
-                    header = "11:00 - 12:00";
+                    header = "11:00";
                     break;
                 case 5:
-                    header = "12:00 - 13:00";
+                    header = "12:00";
                     break;
                 case 6:
-                    header = "13:00 - 14:00";
+                    header = "13:00";
                     break;
                 case 7:
-                    header = "14:00 - 15:00";
+                    header = "14:00";
                     break;
                 case 8:
-                    header = "15:00 - 16:00";
+                    header = "15:00";
                     break;
                 case 9:
-                    header = "16:00 - 17:00";
+                    header = "16:00";
                     break;
                 case 10:
-                    header = "17:00 - 18:00";
+                    header = "17:00";
                     break;
                 case 11:
-                    header = "18:00 - 19:00";
+                    header = "18:00";
                     break;
                 case 12:
-                    header = "19:00 - 20:00";
+                    header = "19:00";
                     break;
             }
             return header;

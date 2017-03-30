@@ -1,5 +1,6 @@
 package com.digzdigital.reminderapp.fragment.reminder;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,11 +41,11 @@ public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapte
 
         holder.reminderTitle.setText(reminderItem.getTitle());
         holder.reminderVenue.setText(reminderItem.getVenue());
-        holder.reminderTime.setText(reminderItem.getDate().toString());
+        holder.reminderTime.setText(reminderItem.getDateString());
         if (reminderItem.getDate().after(Calendar.getInstance().getTime())) {
-            holder.reminderImage.setImageDrawable(createDrawable("Upcoming"));
+            holder.reminderImage.setImageDrawable(createDrawable("U"));
         } else {
-            holder.reminderImage.setImageDrawable(createDrawable("Done"));
+            holder.reminderImage.setImageDrawable(createDrawable("D"));
 
         }
 
@@ -72,7 +73,7 @@ public class ReminderListAdapter extends RecyclerView.Adapter<ReminderListAdapte
                 .withBorder(4)
                 .endConfig()
                 .roundRect(10);
-        return builder.build(name, color1);
+        return builder.build(name, Color.BLUE);
     }
 
     public interface MyClickListener {

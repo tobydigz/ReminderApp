@@ -31,7 +31,7 @@ public class TimetableFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String[] HEADER_DATA = {"", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    private static final String[] HEADER_DATA = {"", "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -85,6 +85,7 @@ public class TimetableFragment extends Fragment {
         TableColumnDpWidthModel columnModel = new TableColumnDpWidthModel(getActivity(), 8);
         binding.tableView.setColumnModel(columnModel);
         binding.tableView.setHeaderAdapter(new SimpleTableHeaderAdapter(getActivity(), HEADER_DATA));
+        loadTableRowItems();
     }
 
     private void loadTableRowItems() {

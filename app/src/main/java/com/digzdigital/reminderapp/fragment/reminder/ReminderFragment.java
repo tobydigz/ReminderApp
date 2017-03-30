@@ -1,13 +1,15 @@
 package com.digzdigital.reminderapp.fragment.reminder;
 
+import android.app.Dialog;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.digzdigital.reminderapp.R;
 import com.digzdigital.reminderapp.activity.MainActivity;
@@ -104,11 +106,42 @@ public class ReminderFragment extends Fragment {
                 reminderListAdapter.setOnItemClickListener(new ReminderListAdapter.MyClickListener() {
                     @Override
                     public void onItemClick(int position, View v) {
-//                        Handle click whatever
+                        ReminderItem item = reminderItems.get(position);
+                        showDialog(item);
                     }
                 });
             }
         }
+
+    }
+
+    private void showDialog(ReminderItem item) {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.reminder_details);
+        dialog.setTitle("Reminder Details");
+
+        TextView titleView = (TextView) dialog.findViewById(R.id.reminderTitle);
+        TextView senderView = (TextView) dialog.findViewById(R.id.reminderSender);
+        TextView venueView = (TextView) dialog.findViewById(R.id.reminderVenue);
+        TextView dateView = (TextView) dialog.findViewById(R.id.reminderDate);
+        TextView timeView = (TextView) dialog.findViewById(R.id.reminderTime);
+        TextView messageView = (TextView) dialog.findViewById(R.id.reminderMessage);
+        Button close = (Button) dialog.findViewById(R.id.close);
+
+        titleView.setText(item.getTitle());
+        senderView.setText(item.getSender());
+        venueView.setText(item.getVenue());
+        dateView.setText(item.getDateString());
+        timeView.setText(item.getTimeString());
+        messageView.setText(item.getMessage());
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
 
     }
 

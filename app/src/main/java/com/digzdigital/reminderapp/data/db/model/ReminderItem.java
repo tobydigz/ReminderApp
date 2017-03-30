@@ -14,6 +14,8 @@ public class ReminderItem {
     private Date date;
     private String venue;
     private String sender;
+    private String dateString;
+    private String timeString;
 
     public ReminderItem() {
     }
@@ -66,4 +68,19 @@ public class ReminderItem {
         this.sender = sender;
     }
 
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
+    }
+
+    public String getTimeString() {
+        return timeString;
+    }
+
+    public void setTimeString(String timeString) {
+        this.timeString = timeString;
+    }
 }

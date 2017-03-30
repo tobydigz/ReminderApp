@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.digzdigital.reminderapp.R;
 import com.digzdigital.reminderapp.ReminderApplication;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity
 
     @Inject
     public DbHelper dbHelper;
+    private TextView emailText;
     private FragmentManager fragmentManager;
     private FirebaseAuth auth;
     private Fragment timetableFragment, coursesFragment;
@@ -47,10 +49,15 @@ public class MainActivity extends AppCompatActivity
             user = firebaseAuth.getCurrentUser();
             if (user != null) {
                 //Nigga signed in
+              try {
+                  emailText.setText(user.getEmail());
+              }catch (Exception ignore){
+
+              }
 
                 FirebaseMessaging.getInstance().subscribeToTopic("reminders");
+                switchFragment(getReminderFragment(), null);
                 if (getIntent().getExtras() != null) {
-                    switchFragment(getReminderFragment(), null);
                 }
 
             } else {
@@ -70,6 +77,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        emailText = (TextView)findViewById(R.id.emailTextView);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

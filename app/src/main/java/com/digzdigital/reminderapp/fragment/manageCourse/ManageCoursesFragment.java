@@ -89,6 +89,7 @@ public class ManageCoursesFragment extends Fragment implements View.OnClickListe
         addCourseButton = (Button) view.findViewById(R.id.addCourse);
         addCourseButton.setOnClickListener(this);
         courses = dbHelper.queryForCourses();
+        doRest();
         return view;
     }
 
@@ -103,8 +104,8 @@ public class ManageCoursesFragment extends Fragment implements View.OnClickListe
 
                 adapter.setOnItemClickListener(new ManageCourseListAdapter.MyClickListener() {
                     @Override
-                    public void onItemClick(int position, View v) {
-                        activity.switchFragment(EditCourseFragment.newInstance(courses.get(position)), null);
+                    public void onItemClick(Course course, View v) {
+                        activity.switchFragment(EditCourseFragment.newInstance(course), null);
                     }
                 });
             }

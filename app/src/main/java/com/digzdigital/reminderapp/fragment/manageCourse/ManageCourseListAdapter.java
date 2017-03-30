@@ -106,7 +106,7 @@ public class ManageCourseListAdapter extends SectioningAdapter {
         itemViewHolder.courseTitle.setText(course.getCourseTitle());
         itemViewHolder.courseVenue.setText(course.getVenue());
         itemViewHolder.courseTime.setText(course.getStartTime());
-        itemViewHolder.courseImage.setImageDrawable(createDrawable(course.getCourseTitle()));
+        itemViewHolder.courseImage.setImageDrawable(createDrawable(course.getCourseCode()));
     }
 
     private TextDrawable createDrawable(String name) {
@@ -141,7 +141,12 @@ public class ManageCourseListAdapter extends SectioningAdapter {
 
         @Override
         public void onClick(View v) {
-            myClickListener.onItemClick(getAdapterPosition(), v);
+            int adapterPosition = getAdapterPosition();
+            final int sectionInt = ManageCourseListAdapter.this.getSectionForAdapterPosition(adapterPosition);
+            final int itemInt = ManageCourseListAdapter.this.getPositionOfItemInSection(sectionInt, adapterPosition);
+            Section section = sections.get(sectionInt);
+            Course course = section.courses.get(itemInt);
+            myClickListener.onItemClick(course, v);
         }
     }
 
@@ -161,7 +166,7 @@ public class ManageCourseListAdapter extends SectioningAdapter {
     }
 
     public interface MyClickListener {
-        public void onItemClick(int position, View v);
+        public void onItemClick(Course course, View v);
     }
 }
 

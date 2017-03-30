@@ -19,7 +19,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 
 public class AppDbHelper implements DbHelper {
@@ -35,7 +34,6 @@ public class AppDbHelper implements DbHelper {
     }
 
 
-
     @Override
     public void createCourse(Course course, String userId) {
 
@@ -45,7 +43,7 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public ArrayList<Course> queryForCourses() {
-        return new ArrayList<>( Course.listAll(Course.class));
+        return new ArrayList<>(Course.listAll(Course.class));
     }
 
     @Override
@@ -78,13 +76,14 @@ public class AppDbHelper implements DbHelper {
         databaseReference.child("reminders").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                reminders = null;
                 reminders = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ReminderItem reminderItem = new ReminderItem();
                     reminderItem.setId(snapshot.getKey());
                     reminderItem.setTitle((String) snapshot.child("title").getValue());
                     Date date = dateConverter((String) snapshot.child("date").getValue());
+                    reminderItem.setDateString(cleanDate((String) snapshot.child("date").getValue()));
+                    reminderItem.setTimeString(cleanTime((String) snapshot.child("date").getValue()));
                     reminderItem.setDate(date);
                     reminderItem.setMessage((String) snapshot.child("message").getValue());
                     reminderItem.setVenue((String) snapshot.child("venue").getValue());
@@ -104,7 +103,7 @@ public class AppDbHelper implements DbHelper {
     private Date dateConverter(String dateString) {
         String dateString1 = dateString.replace("T", " ");
         String dateString2 = dateString1.replace("-", "/");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date convertedDate = new Date();
         try {
             convertedDate = dateFormat.parse(dateString2);
@@ -119,7 +118,7 @@ public class AppDbHelper implements DbHelper {
     private String cleanDate(String dateString) {
         String dateString1 = dateString.replace("T", " ");
         String dateString2 = dateString1.replace("-", "/");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date convertedDate = new Date();
         try {
             convertedDate = dateFormat.parse(dateString2);
@@ -136,9 +135,26 @@ public class AppDbHelper implements DbHelper {
         return dayOfTheWeek + " " + day + " " + stringMonth + " " + year;
     }
 
+    private String cleanTime(String dateString) {
+        String dateString1 = dateString.replace("T", " ");
+        String dateString2 = dateString1.replace("-", "/");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        Date convertedDate = new Date();
+        try {
+            convertedDate = dateFormat.parse(dateString2);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        String hour = (String) android.text.format.DateFormat.format("hh", convertedDate);//Thursday
+        String minute = (String) android.text.format.DateFormat.format("mm", convertedDate); //Jun
+        return hour + ":" + minute;
+    }
+
     @Override
     public ArrayList<ReminderItem> getOnlineReminders() {
-        return null;
+        return reminders;
     }
 
 
@@ -160,8 +176,6 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public ArrayList<RowObject> getRowObjects() {
-
-
         return createRowObjects();
     }
 
