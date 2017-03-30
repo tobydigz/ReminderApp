@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ((ReminderApplication) getApplication()).getAppComponent().inject(this);
-        dbHelper.createRealm(this);
+        // dbHelper.createRealm(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

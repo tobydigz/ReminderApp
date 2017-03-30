@@ -4,16 +4,15 @@ package com.digzdigital.reminderapp.data.db.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.orm.SugarRecord;
+import com.orm.dsl.Table;
+
 import java.util.Date;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
+public class Course extends SugarRecord implements Parcelable{
 
-public class Course extends RealmObject implements Parcelable{
-
-    @PrimaryKey
-    private String id;
+    private Long id;
     private String courseCode;
     private String courseTitle;
     private String venue;
@@ -189,11 +188,11 @@ public class Course extends RealmObject implements Parcelable{
         this.time = time;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

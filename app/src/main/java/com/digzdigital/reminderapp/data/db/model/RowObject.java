@@ -3,7 +3,6 @@ package com.digzdigital.reminderapp.data.db.model;
 
 import java.util.ArrayList;
 
-import io.realm.RealmResults;
 
 public class RowObject {
     private String rowHeader;

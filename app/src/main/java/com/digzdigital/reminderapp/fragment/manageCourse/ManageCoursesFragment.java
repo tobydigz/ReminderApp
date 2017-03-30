@@ -21,7 +21,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 
-import io.realm.RealmResults;
+import java.util.ArrayList;
+
 
 
 /**
@@ -40,7 +41,7 @@ public class ManageCoursesFragment extends Fragment implements View.OnClickListe
     // TODO: Rename and change types of parameters
     private String userId;
     private String mParam2;
-    private RealmResults<Course> courses;
+    private ArrayList<Course> courses;
     private RecyclerView courseRV;
     private MainActivity activity;
     private Button addCourseButton;

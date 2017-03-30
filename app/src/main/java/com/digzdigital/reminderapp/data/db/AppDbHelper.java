@@ -19,10 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
+import java.util.List;
 
 
 public class AppDbHelper implements DbHelper {
@@ -31,7 +28,6 @@ public class AppDbHelper implements DbHelper {
     private ArrayList<ReminderItem> reminders;
     private DatabaseReference databaseReference;
     private ArrayList<RowObject> rowObjects;
-    private Realm realm;
 
     public AppDbHelper(Context context) {
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -39,24 +35,17 @@ public class AppDbHelper implements DbHelper {
     }
 
 
-    @Override
-    public void createRealm(Context context){
-        Realm.init(context);
-        realm = Realm.getDefaultInstance();
-    }
+
     @Override
     public void createCourse(Course course, String userId) {
 
-        realm.beginTransaction();
-        realm.copyToRealm(course);
-        realm.commitTransaction();
+        course.save();
 
     }
 
     @Override
-    public RealmResults<Course> queryForCourses() {
-        RealmQuery<Course> query = realm.where(Course.class);
-        return query.findAll();
+    public ArrayList<Course> queryForCourses() {
+        return new ArrayList<>( Course.listAll(Course.class));
     }
 
     @Override
@@ -66,16 +55,21 @@ public class AppDbHelper implements DbHelper {
 
     @Override
     public boolean deleteCourse(Course course) {
-        realm.beginTransaction();
-        Course realmCourse = realm.where(Course.class).equalTo("id", course.getId()).findAll().first();
-        realmCourse.deleteFromRealm();
-        realm.commitTransaction();
+        Course course1 = Course.findById(Course.class, course.getId());
+        course1.delete();
         return false;
     }
 
     @Override
     public boolean updateCourse(Course course, String userId) {
-        databaseReference.child(userId).child(course.getCourseCode()).setValue(course);
+        Course course1 = Course.findById(Course.class, course.getId());
+        course1.setCourseTitle(course.getCourseTitle());
+        course1.setVenue(course.getVenue());
+        course1.setCourseCode(course.getCourseCode());
+        course1.setDuration(course.getDuration());
+        course1.setDay(course.getDay());
+        course1.setTime(course.getTime());
+        course1.save();
         return false;
     }
 
@@ -155,8 +149,7 @@ public class AppDbHelper implements DbHelper {
     }
 
     private ArrayList<RowObject> createRowObjects() {
-        RealmQuery<Course> query = realm.where(Course.class);
-        RealmResults<Course> results = query.findAll();
+        ArrayList<Course> results = queryForCourses();
 
         RowObjectsCreator creator = new RowObjectsCreator(results);
         rowObjects = creator.getRows();

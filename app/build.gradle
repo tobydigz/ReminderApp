@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
+//apply plugin: 'realm-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -53,6 +53,7 @@ dependencies {
     compile 'de.codecrafters.tableview:tableview:2.5.0'
     compile 'com.android.support:support-v4:25.1.1'
     compile 'com.tonicartos:superslim:0.4.13'
+    compile 'com.github.satyan:sugar:1.4'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
     provided 'javax.annotation:jsr250-api:1.0'

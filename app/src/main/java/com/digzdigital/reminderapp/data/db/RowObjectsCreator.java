@@ -4,16 +4,15 @@ import com.digzdigital.reminderapp.data.db.model.Course;
 import com.digzdigital.reminderapp.data.db.model.RowObject;
 
 import java.util.ArrayList;
-
-import io.realm.RealmResults;
+import java.util.List;
 
 
 class RowObjectsCreator {
 
-    private RealmResults<Course> results;
+    private ArrayList<Course> results;
     private ArrayList<RowObject> rowObjects;
 
-    RowObjectsCreator(RealmResults<Course> results) {
+    RowObjectsCreator(ArrayList<Course> results) {
         this.results = results;
     }
 
@@ -25,9 +24,9 @@ class RowObjectsCreator {
         return rowObjects;
     }
 
-    private void do7pm(RealmResults<Course> otherCourses) {
+    private void do7pm(List<Course> otherCourses) {
         String header = determineHeader(12);
-        RealmResults<Course> courses = results.where().equalTo("time", 12).findAll();
+        ArrayList<Course> courses = new ArrayList<>(Course.find(Course.class, "time = ?", "12"));
 
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -40,9 +39,9 @@ class RowObjectsCreator {
         rowObjects.add(rowObject);
     }
 
-    private void do6pm(RealmResults<Course> otherCourses) {
+    private void do6pm(List<Course> otherCourses) {
         String header = determineHeader(11);
-        RealmResults<Course> courses = results.where().equalTo("time", 11).findAll();
+        ArrayList<Course> courses = new ArrayList<>(Course.find(Course.class, "time = ?", "11"));
 
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -53,12 +52,12 @@ class RowObjectsCreator {
         rowObject.setCourses(finalCourses);
 
         rowObjects.add(rowObject);
-        do7pm(courses.where().greaterThan("duration", 1).findAll());
+        do7pm(Course.find(Course.class, "duration = ?", "2"));
     }
 
-    private void do5pm(RealmResults<Course> otherCourses) {
+    private void do5pm(List<Course> otherCourses) {
         String header = determineHeader(10);
-        RealmResults<Course> courses = results.where().equalTo("time", 10).findAll();
+        ArrayList<Course> courses = new ArrayList<>(Course.find(Course.class, "time = ?", "10"));
 
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -69,12 +68,12 @@ class RowObjectsCreator {
         rowObject.setCourses(finalCourses);
 
         rowObjects.add(rowObject);
-        do6pm(courses.where().greaterThan("duration", 1).findAll());
+        do6pm(Course.find(Course.class, "duration = ?", "2"));
     }
 
-    private void do4pm(RealmResults<Course> otherCourses) {
+    private void do4pm(List<Course> otherCourses) {
         String header = determineHeader(9);
-        RealmResults<Course> courses = results.where().equalTo("time", 9).findAll();
+        ArrayList<Course> courses = new ArrayList<>(Course.find(Course.class, "time = ?", "9"));
 
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -85,12 +84,12 @@ class RowObjectsCreator {
         rowObject.setCourses(finalCourses);
 
         rowObjects.add(rowObject);
-        do5pm(courses.where().greaterThan("duration", 1).findAll());
+        do5pm(Course.find(Course.class, "duration = ?", "2"));
     }
 
-    private void do3pm(RealmResults<Course> otherCourses) {
+    private void do3pm(List<Course> otherCourses) {
         String header = determineHeader(8);
-        RealmResults<Course> courses = results.where().equalTo("time", 8).findAll();
+        ArrayList<Course> courses = new ArrayList<>(Course.find(Course.class, "time = ?", "8"));
 
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -101,12 +100,12 @@ class RowObjectsCreator {
         rowObject.setCourses(finalCourses);
 
         rowObjects.add(rowObject);
-        do4pm(courses.where().greaterThan("duration", 1).findAll());
+        do4pm(Course.find(Course.class, "duration = ?", "2"));
     }
 
-    private void do2pm(RealmResults<Course> otherCourses) {
+    private void do2pm(List<Course> otherCourses) {
         String header = determineHeader(7);
-        RealmResults<Course> courses = results.where().equalTo("time", 7).findAll();
+        ArrayList<Course> courses = new ArrayList<>(Course.find(Course.class, "time = ?", "7"));
 
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -117,12 +116,12 @@ class RowObjectsCreator {
         rowObject.setCourses(finalCourses);
 
         rowObjects.add(rowObject);
-        do3pm(courses.where().greaterThan("duration", 1).findAll());
+        do3pm(Course.find(Course.class, "duration = ?", "2"));
     }
 
-    private void do1pm(RealmResults<Course> otherCourses) {
+    private void do1pm(List<Course> otherCourses) {
         String header = determineHeader(6);
-        RealmResults<Course> courses = results.where().equalTo("time", 6).findAll();
+        ArrayList<Course> courses = new ArrayList<>(Course.find(Course.class, "time = ?", "6"));
 
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -133,12 +132,12 @@ class RowObjectsCreator {
         rowObject.setCourses(finalCourses);
 
         rowObjects.add(rowObject);
-        do2pm(courses.where().greaterThan("duration", 1).findAll());
+        do2pm(Course.find(Course.class, "duration = ?", "2"));
     }
 
-    private void do12pm(RealmResults<Course> otherCourses) {
+    private void do12pm(List<Course> otherCourses) {
         String header = determineHeader(5);
-        RealmResults<Course> courses = results.where().equalTo("time", 5).findAll();
+        ArrayList<Course> courses = new ArrayList<>(Course.find(Course.class, "time = ?", "5"));
 
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -149,12 +148,12 @@ class RowObjectsCreator {
         rowObject.setCourses(finalCourses);
 
         rowObjects.add(rowObject);
-        do1pm(courses.where().greaterThan("duration", 1).findAll());
+        do1pm(Course.find(Course.class, "duration = ?", "2"));
     }
 
-    private void do11am(RealmResults<Course> otherCourses) {
+    private void do11am(List<Course> otherCourses) {
         String header = determineHeader(4);
-        RealmResults<Course> courses = results.where().equalTo("time", 4).findAll();
+        ArrayList<Course> courses = new ArrayList<>(Course.find(Course.class, "time = ?", "4"));
 
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -165,12 +164,12 @@ class RowObjectsCreator {
         rowObject.setCourses(finalCourses);
 
         rowObjects.add(rowObject);
-        do12pm(courses.where().greaterThan("duration", 1).findAll());
+        do12pm(Course.find(Course.class, "duration = ?", "2"));
     }
 
-    private void do10am(RealmResults<Course> otherCourses) {
+    private void do10am(List<Course> otherCourses) {
         String header = determineHeader(3);
-        RealmResults<Course> courses = results.where().equalTo("time", 3).findAll();
+        ArrayList<Course> courses = new ArrayList<>(Course.find(Course.class, "time = ?", "3"));
 
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -181,12 +180,12 @@ class RowObjectsCreator {
         rowObject.setCourses(finalCourses);
 
         rowObjects.add(rowObject);
-        do11am(courses.where().greaterThan("duration", 1).findAll());
+        do11am(Course.find(Course.class, "duration = ?", "2"));
     }
 
-    private void do9am(RealmResults<Course> otherCourses) {
+    private void do9am(List<Course> otherCourses) {
         String header = determineHeader(2);
-        RealmResults<Course> courses = results.where().equalTo("time", 2).findAll();
+        ArrayList<Course> courses = new ArrayList<>(Course.find(Course.class, "time = ?", "2"));
 
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -197,12 +196,13 @@ class RowObjectsCreator {
         rowObject.setCourses(finalCourses);
 
         rowObjects.add(rowObject);
-        do10am(courses.where().greaterThan("duration", 1).findAll());
+        do10am(Course.find(Course.class, "duration = ?", "2"));
     }
 
     private void startCreation() {
         String header = determineHeader(1);
-        RealmResults<Course> courses = results.where().equalTo("time", 1).findAll();
+        // ArrayList<Course> courses = results.where().equalTo("time", 1).findAll();
+        ArrayList<Course> courses = new ArrayList<>(Course.find(Course.class, "time = ?", "1"));
 
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -212,7 +212,8 @@ class RowObjectsCreator {
         rowObject.setCourses(finalCourses);
 
         rowObjects.add(rowObject);
-        do9am(courses.where().greaterThan("duration", 1).findAll());
+        // do9am(courses.where().greaterThan("duration", 1).findAll());
+        do9am(Course.find(Course.class, "duration = ?", "2"));
     }
 
     private String determineHeader(int i) {

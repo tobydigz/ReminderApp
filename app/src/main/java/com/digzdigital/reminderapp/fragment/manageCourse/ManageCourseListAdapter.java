@@ -15,12 +15,11 @@ import org.zakariya.stickyheaders.SectioningAdapter;
 
 import java.util.ArrayList;
 
-import io.realm.RealmResults;
 
 
 public class ManageCourseListAdapter extends SectioningAdapter {
 
-    private RealmResults<Course> courses;
+    private ArrayList<Course> courses;
     private ArrayList<Section> sections = new ArrayList<>();
 
     private static MyClickListener myClickListener;
@@ -28,7 +27,7 @@ public class ManageCourseListAdapter extends SectioningAdapter {
 
     }
 
-    public void setCourses(RealmResults<Course> courses){
+    public void setCourses(ArrayList<Course> courses){
         this.courses = courses;
         sections.clear();
 

@@ -9,13 +9,11 @@ import com.digzdigital.reminderapp.data.db.model.RowObject;
 
 import java.util.ArrayList;
 
-import io.realm.RealmResults;
 
 public interface DbHelper {
 
-    void createRealm(Context context);
     void createCourse(Course course, String userId);
-    RealmResults<Course> queryForCourses();
+    ArrayList<Course> queryForCourses();
     ArrayList<Course> getAllCourses();
     boolean deleteCourse(Course course);
     boolean updateCourse(Course course, String userId);
