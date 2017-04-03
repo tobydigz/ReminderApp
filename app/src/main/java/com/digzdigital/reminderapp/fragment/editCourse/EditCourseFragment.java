@@ -79,9 +79,9 @@ public class EditCourseFragment extends Fragment implements View.OnClickListener
         binding.courseCode.setText(course.getCourseCode());
         binding.courseVenue.setText(course.getVenue());
         binding.courseTitle.setText(course.getCourseTitle());
-        binding.daySelect.setSelection(course.getDay() - 1);
+        binding.daySelect.setSelection(course.getDay()+1);
         binding.duration.setSelection(course.getDuration() - 1);
-        binding.courseStartTime.setSelection(course.getTime() - 1);
+        binding.courseStartTime.setSelection(course.getTime());
     }
 
     private void initDaySpinner() {
@@ -96,8 +96,8 @@ public class EditCourseFragment extends Fragment implements View.OnClickListener
         String[] ITEMS = {"8:00 am", "9:00 am", "10:00 am", "11:00 am", "12:00 pm", "1:00 pm", "2:00 pm", "3:00 pm", "4:00 pm", "5:00 pm", "6:00 pm", "7:00 pm"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, ITEMS);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.daySelect.setAdapter(adapter);
-        binding.daySelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.courseStartTime.setAdapter(adapter);
+        binding.courseStartTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 course.setTime(position + 1);
@@ -114,8 +114,8 @@ public class EditCourseFragment extends Fragment implements View.OnClickListener
         String[] ITEMS = {"1", "2"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, ITEMS);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.daySelect.setAdapter(adapter);
-        binding.daySelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.duration.setAdapter(adapter);
+        binding.duration.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 course.setDuration(position + 1);
@@ -132,7 +132,7 @@ public class EditCourseFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.save:
-                mainActivity.onSaveClicked(updateCourse());
+                mainActivity.onUpdateClicked(updateCourse());
                 break;
             case R.id.cancel:
                 mainActivity.onCancelClicked();

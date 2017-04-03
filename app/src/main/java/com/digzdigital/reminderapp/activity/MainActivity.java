@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.digzdigital.reminderapp.R;
 import com.digzdigital.reminderapp.ReminderApplication;
@@ -49,11 +50,11 @@ public class MainActivity extends AppCompatActivity
             user = firebaseAuth.getCurrentUser();
             if (user != null) {
                 //Nigga signed in
-              try {
-                  emailText.setText(user.getEmail());
-              }catch (Exception ignore){
+                try {
+                    emailText.setText(user.getEmail());
+                } catch (Exception ignore) {
 
-              }
+                }
 
                 FirebaseMessaging.getInstance().subscribeToTopic("reminders");
                 switchFragment(getReminderFragment(), null);
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        emailText = (TextView)findViewById(R.id.emailTextView);
+        emailText = (TextView) findViewById(R.id.emailTextView);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,11 +200,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onCancelClicked() {
+        switchFragmentNoStack(getCourseFragment());
 
     }
 
     public void onSaveClicked(Course course) {
-        dbHelper.createCourse(course, user.getUid());
+        if (dbHelper.createCourse(course, user.getUid()))
+            switchFragmentNoStack(getCourseFragment());
+        else showError();
+
+    }
+
+    private void showError() {
+        Toast.makeText(this, "Course not saved", Toast.LENGTH_LONG).show();
+    }
+
+    public void onUpdateClicked(Course course) {
+        dbHelper.updateCourse(course, user.getUid());
         switchFragmentNoStack(getCourseFragment());
 
     }

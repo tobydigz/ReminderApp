@@ -182,6 +182,7 @@ class TimetableAdapter extends TableDataAdapter<RowObject> {
         TextDrawable.IBuilder builder = TextDrawable.builder()
                 .beginConfig()
                 .textColor(Color.BLACK)
+                .toUpperCase()
                 .width(100)
                 .height(60)
                 .withBorder(4)

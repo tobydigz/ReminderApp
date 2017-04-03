@@ -31,6 +31,7 @@
                 android:layout_marginLeft="12dp"
                 android:drawableLeft="@drawable/ic_info_outline_black_24dp"
                 android:text="Public Lecture"
+                android:textAllCaps="true"
                 android:textSize="21sp"
                 android:textStyle="bold"/>
 

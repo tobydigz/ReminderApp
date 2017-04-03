@@ -83,7 +83,7 @@ public class Course extends SugarRecord implements Parcelable{
         this.venue = venue;
     }
 
-    public int getDay(){
+    public Integer getDay(){
         return day;
     }
     public String getDayText() {
@@ -133,13 +133,13 @@ public class Course extends SugarRecord implements Parcelable{
         this.duration = (int) duration;
     }
 
-    public int getTime() {
+    public Integer getTime() {
         return time;
     }
 
     public String getStartTime(){
             String header = "";
-            switch (day) {
+            switch (time) {
                 case 1:
                     header = "8:00";
                     break;

@@ -26,7 +26,6 @@ public class AppDbHelper implements DbHelper {
     private ArrayList<Course> courses;
     private ArrayList<ReminderItem> reminders;
     private DatabaseReference databaseReference;
-    private ArrayList<RowObject> rowObjects;
 
     public AppDbHelper(Context context) {
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -35,15 +34,18 @@ public class AppDbHelper implements DbHelper {
 
 
     @Override
-    public void createCourse(Course course, String userId) {
-
+    public boolean createCourse(Course course, String userId) {
+        if ((Course.find(Course.class, "time = ? and day = ?", course.getTime().toString(), course.getDay().toString())).size() > 0)
+            return false;
         course.save();
+        return true;
 
     }
 
     @Override
     public ArrayList<Course> queryForCourses() {
-        return new ArrayList<>(Course.listAll(Course.class));
+        return new ArrayList<>(Course.findWithQuery(Course.class, "Select * from Course ORDER BY day"));
+        // return new ArrayList<>(Course.listAll(Course.class));
     }
 
     @Override
@@ -168,9 +170,8 @@ public class AppDbHelper implements DbHelper {
         ArrayList<Course> results = queryForCourses();
 
         RowObjectsCreator creator = new RowObjectsCreator(results);
-        rowObjects = creator.getRows();
 
-        return rowObjects;
+        return creator.getRows();
     }
 
 

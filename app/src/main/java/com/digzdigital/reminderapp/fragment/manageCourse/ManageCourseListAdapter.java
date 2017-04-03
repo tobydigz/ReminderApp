@@ -111,9 +111,10 @@ public class ManageCourseListAdapter extends SectioningAdapter {
 
     private TextDrawable createDrawable(String name) {
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
-        int color1 = generator.getRandomColor();
+        int color1 = generator.getColor(name);
         TextDrawable.IBuilder builder = TextDrawable.builder()
                 .beginConfig()
+                .toUpperCase()
                 .withBorder(4)
                 .endConfig()
                 .roundRect(10);
@@ -146,6 +147,7 @@ public class ManageCourseListAdapter extends SectioningAdapter {
             final int itemInt = ManageCourseListAdapter.this.getPositionOfItemInSection(sectionInt, adapterPosition);
             Section section = sections.get(sectionInt);
             Course course = section.courses.get(itemInt);
+            // Course course = new Course();
             myClickListener.onItemClick(course, v);
         }
     }

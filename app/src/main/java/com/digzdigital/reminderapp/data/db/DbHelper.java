@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public interface DbHelper {
 
-    void createCourse(Course course, String userId);
+    boolean createCourse(Course course, String userId);
     ArrayList<Course> queryForCourses();
     ArrayList<Course> getAllCourses();
     boolean deleteCourse(Course course);

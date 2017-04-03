@@ -81,7 +81,7 @@ public class AddCourseFragment extends Fragment implements View.OnClickListener,
     }
 
     private void initDaySpinner() {
-        String[] ITEMS = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        String[] ITEMS = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, ITEMS);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.daySelect.setAdapter(adapter);

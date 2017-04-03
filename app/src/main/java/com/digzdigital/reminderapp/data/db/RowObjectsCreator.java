@@ -8,42 +8,53 @@ import java.util.ArrayList;
 
 class RowObjectsCreator {
 
-    private ArrayList<Course> results;
-    private ArrayList<RowObject> rowObjects;
     private Course course = new Course();
 
     RowObjectsCreator(ArrayList<Course> results) {
-        this.results = results;
+        ArrayList<Course> results1 = results;
         course.setCourseCode("");
     }
 
     ArrayList<RowObject> getRows() {
-        rowObjects = new ArrayList<>();
+        ArrayList<RowObject> rowObjects = new ArrayList<>();
         RowObject rowObject;
+
         rowObject = do8am();
         rowObjects.add(rowObject);
+
         rowObject = do9am();
         rowObjects.add(rowObject);
+
         rowObject = do10am();
         rowObjects.add(rowObject);
+
         rowObject = do11am();
         rowObjects.add(rowObject);
+
         rowObject = do12am();
         rowObjects.add(rowObject);
+
         rowObject = do1pm();
         rowObjects.add(rowObject);
+
         rowObject = do2pm();
         rowObjects.add(rowObject);
+
         rowObject = do3pm();
         rowObjects.add(rowObject);
+
         rowObject = do4pm();
         rowObjects.add(rowObject);
+
         rowObject = do5pm();
         rowObjects.add(rowObject);
+
         rowObject = do6pm();
         rowObjects.add(rowObject);
+
         rowObject = do7pm();
         rowObjects.add(rowObject);
+
         return rowObjects;
     }
 
@@ -51,28 +62,28 @@ class RowObjectsCreator {
         String header = determineHeader(12);
 
         ArrayList<Course> monCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "1", "1") != null)
-            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "1"));
+        if (Course.find(Course.class, "time = ? and day = ?", "1", "0").size()  > 0)
+            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "0"));
         else monCourses.add(course);
 
         ArrayList<Course> tueCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "12", "2") != null)
-            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "12", "2"));
+        if (Course.find(Course.class, "time = ? and day = ?", "12", "1").size()  > 0)
+            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "12", "1"));
         else tueCourses.add(course);
 
         ArrayList<Course> wedCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "12", "3") != null)
-            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "12", "3"));
+        if (Course.find(Course.class, "time = ? and day = ?", "12", "2").size()  > 0)
+            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "12", "2"));
         else wedCourses.add(course);
 
         ArrayList<Course> thuCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "12", "4") != null)
-            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "12", "4"));
+        if (Course.find(Course.class, "time = ? and day = ?", "12", "3").size()  > 0)
+            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "12", "3"));
         else thuCourses.add(course);
 
         ArrayList<Course> friCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "12", "5") != null)
-            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "12", "5"));
+        if (Course.find(Course.class, "time = ? and day = ?", "12", "4").size()  > 0)
+            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "12", "4"));
         else friCourses.add(course);
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -91,28 +102,28 @@ class RowObjectsCreator {
         String header = determineHeader(11);
 
         ArrayList<Course> monCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "1", "1") != null)
-            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "11", "1"));
+        if (Course.find(Course.class, "time = ? and day = ?", "1", "0").size()  > 0)
+            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "11", "0"));
         else monCourses.add(course);
 
         ArrayList<Course> tueCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "11", "2") != null)
-            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "11", "2"));
+        if (Course.find(Course.class, "time = ? and day = ?", "11", "1").size()  > 0)
+            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "11", "1"));
         else tueCourses.add(course);
 
         ArrayList<Course> wedCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "11", "3") != null)
-            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "11", "3"));
+        if (Course.find(Course.class, "time = ? and day = ?", "11", "2").size()  > 0)
+            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "11", "2"));
         else wedCourses.add(course);
 
         ArrayList<Course> thuCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "11", "4") != null)
-            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "11", "4"));
+        if (Course.find(Course.class, "time = ? and day = ?", "11", "3").size()  > 0)
+            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "11", "3"));
         else thuCourses.add(course);
 
         ArrayList<Course> friCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "11", "5") != null)
-            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "11", "5"));
+        if (Course.find(Course.class, "time = ? and day = ?", "11", "4").size()  > 0)
+            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "11", "4"));
         else friCourses.add(course);
 
         RowObject rowObject = new RowObject();
@@ -133,28 +144,28 @@ class RowObjectsCreator {
         String header = determineHeader(10);
 
         ArrayList<Course> monCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "10", "1") != null)
-            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "10", "1"));
+        if (Course.find(Course.class, "time = ? and day = ?", "10", "0").size()  > 0)
+            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "10", "0"));
         else monCourses.add(course);
 
         ArrayList<Course> tueCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "10", "2") != null)
-            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "10", "2"));
+        if (Course.find(Course.class, "time = ? and day = ?", "10", "1").size()  > 0)
+            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "10", "1"));
         else tueCourses.add(course);
 
         ArrayList<Course> wedCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "10", "3") != null)
-            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "10", "3"));
+        if (Course.find(Course.class, "time = ? and day = ?", "10", "2").size()  > 0)
+            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "10", "2"));
         else wedCourses.add(course);
 
         ArrayList<Course> thuCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "10", "4") != null)
-            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "10", "4"));
+        if (Course.find(Course.class, "time = ? and day = ?", "10", "3").size()  > 0)
+            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "10", "3"));
         else thuCourses.add(course);
 
         ArrayList<Course> friCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "10", "5") != null)
-            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "10", "5"));
+        if (Course.find(Course.class, "time = ? and day = ?", "10", "4").size()  > 0)
+            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "10", "4"));
         else friCourses.add(course);
         RowObject rowObject = new RowObject();
         rowObject.setRowHeader(header);
@@ -174,28 +185,28 @@ class RowObjectsCreator {
         String header = determineHeader(9);
 
         ArrayList<Course> monCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "9", "1") != null)
-            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "9", "1"));
+        if (Course.find(Course.class, "time = ? and day = ?", "9", "0").size()  > 0)
+            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "9", "0"));
         else monCourses.add(course);
 
         ArrayList<Course> tueCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "9", "2") != null)
-            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "9", "2"));
+        if (Course.find(Course.class, "time = ? and day = ?", "9", "1").size()  > 0)
+            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "9", "1"));
         else tueCourses.add(course);
 
         ArrayList<Course> wedCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "9", "3") != null)
-            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "9", "3"));
+        if (Course.find(Course.class, "time = ? and day = ?", "9", "2").size()  > 0)
+            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "9", "2"));
         else wedCourses.add(course);
 
         ArrayList<Course> thuCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "9", "4") != null)
-            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "9", "4"));
+        if (Course.find(Course.class, "time = ? and day = ?", "9", "3").size()  > 0)
+            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "9", "3"));
         else thuCourses.add(course);
 
         ArrayList<Course> friCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "9", "5") != null)
-            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "9", "5"));
+        if (Course.find(Course.class, "time = ? and day = ?", "9", "4").size()  > 0)
+            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "9", "4"));
         else friCourses.add(course);
 
         RowObject rowObject = new RowObject();
@@ -216,28 +227,28 @@ class RowObjectsCreator {
         String header = determineHeader(8);
 
         ArrayList<Course> monCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "8", "1") != null)
-            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "8", "1"));
+        if (Course.find(Course.class, "time = ? and day = ?", "8", "0").size()  > 0)
+            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "8", "0"));
         else monCourses.add(course);
 
         ArrayList<Course> tueCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "8", "2") != null)
-            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "8", "2"));
+        if (Course.find(Course.class, "time = ? and day = ?", "8", "1").size()  > 0)
+            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "8", "1"));
         else tueCourses.add(course);
 
         ArrayList<Course> wedCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "8", "3") != null)
-            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "8", "3"));
+        if (Course.find(Course.class, "time = ? and day = ?", "8", "2").size()  > 0)
+            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "8", "2"));
         else wedCourses.add(course);
 
         ArrayList<Course> thuCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "8", "4") != null)
-            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "8", "4"));
+        if (Course.find(Course.class, "time = ? and day = ?", "8", "3").size()  > 0)
+            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "8", "3"));
         else thuCourses.add(course);
 
         ArrayList<Course> friCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "8", "5") != null)
-            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "8", "5"));
+        if (Course.find(Course.class, "time = ? and day = ?", "8", "4").size()  > 0)
+            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "8", "4"));
         else friCourses.add(course);
 
         RowObject rowObject = new RowObject();
@@ -258,28 +269,28 @@ class RowObjectsCreator {
         String header = determineHeader(7);
 
         ArrayList<Course> monCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "7", "1") != null)
-            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "7", "1"));
+        if (Course.find(Course.class, "time = ? and day = ?", "7", "0").size()  > 0)
+            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "7", "0"));
         else monCourses.add(course);
 
         ArrayList<Course> tueCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "7", "2") != null)
-            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "7", "2"));
+        if (Course.find(Course.class, "time = ? and day = ?", "7", "1").size()  > 0)
+            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "7", "1"));
         else tueCourses.add(course);
 
         ArrayList<Course> wedCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "7", "3") != null)
-            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "7", "3"));
+        if (Course.find(Course.class, "time = ? and day = ?", "7", "2").size()  > 0)
+            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "7", "2"));
         else wedCourses.add(course);
 
         ArrayList<Course> thuCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "7", "4") != null)
-            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "7", "4"));
+        if (Course.find(Course.class, "time = ? and day = ?", "7", "3").size()  > 0)
+            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "7", "3"));
         else thuCourses.add(course);
 
         ArrayList<Course> friCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "7", "5") != null)
-            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "7", "5"));
+        if (Course.find(Course.class, "time = ? and day = ?", "7", "4").size()  > 0)
+            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "7", "4"));
         else friCourses.add(course);
 
         RowObject rowObject = new RowObject();
@@ -300,28 +311,28 @@ class RowObjectsCreator {
         String header = determineHeader(6);
 
         ArrayList<Course> monCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "1", "1") != null)
-            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "1"));
+        if (Course.find(Course.class, "time = ? and day = ?", "1", "0").size()  > 0)
+            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "0"));
         else monCourses.add(course);
 
         ArrayList<Course> tueCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "6", "2") != null)
-            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "6", "2"));
+        if (Course.find(Course.class, "time = ? and day = ?", "6", "1").size()  > 0)
+            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "6", "1"));
         else tueCourses.add(course);
 
         ArrayList<Course> wedCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "6", "3") != null)
-            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "6", "3"));
+        if (Course.find(Course.class, "time = ? and day = ?", "6", "2").size()  > 0)
+            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "6", "2"));
         else wedCourses.add(course);
 
         ArrayList<Course> thuCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "6", "4") != null)
-            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "6", "4"));
+        if (Course.find(Course.class, "time = ? and day = ?", "6", "3").size()  > 0)
+            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "6", "3"));
         else thuCourses.add(course);
 
         ArrayList<Course> friCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "6", "5") != null)
-            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "6", "5"));
+        if (Course.find(Course.class, "time = ? and day = ?", "6", "4").size()  > 0)
+            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "6", "4"));
         else friCourses.add(course);
 
         RowObject rowObject = new RowObject();
@@ -342,28 +353,28 @@ class RowObjectsCreator {
         String header = determineHeader(5);
 
         ArrayList<Course> monCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "1", "1") != null)
-            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "1"));
+        if (Course.find(Course.class, "time = ? and day = ?", "1", "0").size()  > 0)
+            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "0"));
         else monCourses.add(course);
 
         ArrayList<Course> tueCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "5", "2") != null)
-            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "5", "2"));
+        if (Course.find(Course.class, "time = ? and day = ?", "5", "1").size()  > 0)
+            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "5", "1"));
         else tueCourses.add(course);
 
         ArrayList<Course> wedCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "5", "3") != null)
-            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "5", "3"));
+        if (Course.find(Course.class, "time = ? and day = ?", "5", "2").size()  > 0)
+            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "5", "2"));
         else wedCourses.add(course);
 
         ArrayList<Course> thuCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "5", "4") != null)
-            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "5", "4"));
+        if (Course.find(Course.class, "time = ? and day = ?", "5", "3").size()  > 0)
+            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "5", "3"));
         else thuCourses.add(course);
 
         ArrayList<Course> friCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "5", "5") != null)
-            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "5", "5"));
+        if (Course.find(Course.class, "time = ? and day = ?", "5", "4").size()  > 0)
+            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "5", "4"));
         else friCourses.add(course);
 
         RowObject rowObject = new RowObject();
@@ -384,28 +395,28 @@ class RowObjectsCreator {
         String header = determineHeader(4);
 
         ArrayList<Course> monCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "4", "1") != null)
-            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "4", "1"));
+        if (Course.find(Course.class, "time = ? and day = ?", "4", "0").size()  > 0)
+            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "4", "0"));
         else monCourses.add(course);
 
         ArrayList<Course> tueCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "4", "2") != null)
-            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "4", "2"));
+        if (Course.find(Course.class, "time = ? and day = ?", "4", "1").size()  > 0)
+            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "4", "1"));
         else tueCourses.add(course);
 
         ArrayList<Course> wedCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "4", "3") != null)
-            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "4", "3"));
+        if (Course.find(Course.class, "time = ? and day = ?", "4", "2").size()  > 0)
+            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "4", "2"));
         else wedCourses.add(course);
 
         ArrayList<Course> thuCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "4", "4") != null)
-            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "4", "4"));
+        if (Course.find(Course.class, "time = ? and day = ?", "4", "3").size()  > 0)
+            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "4", "3"));
         else thuCourses.add(course);
 
         ArrayList<Course> friCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "4", "5") != null)
-            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "4", "5"));
+        if (Course.find(Course.class, "time = ? and day = ?", "4", "4").size()  > 0)
+            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "4", "4"));
         else friCourses.add(course);
 
         RowObject rowObject = new RowObject();
@@ -426,28 +437,28 @@ class RowObjectsCreator {
         String header = determineHeader(3);
 
         ArrayList<Course> monCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "3", "1") != null)
-            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "3", "1"));
+        if (Course.find(Course.class, "time = ? and day = ?", "3", "0").size()  > 0)
+            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "3", "0"));
         else monCourses.add(course);
 
         ArrayList<Course> tueCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "3", "2") != null)
-            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "3", "2"));
+        if (Course.find(Course.class, "time = ? and day = ?", "3", "1").size()  > 0)
+            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "3", "1"));
         else tueCourses.add(course);
 
         ArrayList<Course> wedCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "3", "3") != null)
-            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "3", "3"));
+        if (Course.find(Course.class, "time = ? and day = ?", "3", "2").size()  > 0)
+            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "3", "2"));
         else wedCourses.add(course);
 
         ArrayList<Course> thuCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "3", "4") != null)
-            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "3", "4"));
+        if (Course.find(Course.class, "time = ? and day = ?", "3", "3").size()  > 0)
+            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "3", "3"));
         else thuCourses.add(course);
 
         ArrayList<Course> friCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "3", "5") != null)
-            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "3", "5"));
+        if (Course.find(Course.class, "time = ? and day = ?", "3", "4").size()  > 0)
+            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "3", "4"));
         else friCourses.add(course);
 
         RowObject rowObject = new RowObject();
@@ -468,28 +479,28 @@ class RowObjectsCreator {
         String header = determineHeader(2);
 
         ArrayList<Course> monCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "1", "1") != null)
-            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "1"));
+        if (Course.find(Course.class, "time = ? and day = ?", "2", "0").size()  > 0)
+            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "0"));
         else monCourses.add(course);
 
         ArrayList<Course> tueCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "2", "2") != null)
-            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "2", "2"));
+        if (Course.find(Course.class, "time = ? and day = ?", "2", "1").size()  > 0)
+            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "2", "1"));
         else tueCourses.add(course);
 
         ArrayList<Course> wedCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "2", "3") != null)
-            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "2", "3"));
+        if (Course.find(Course.class, "time = ? and day = ?", "2", "2").size()  > 0)
+            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "2", "2"));
         else wedCourses.add(course);
 
         ArrayList<Course> thuCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "2", "4") != null)
-            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "2", "4"));
+        if (Course.find(Course.class, "time = ? and day = ?", "2", "3").size()  > 0)
+            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "2", "3"));
         else thuCourses.add(course);
 
         ArrayList<Course> friCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "2", "5") != null)
-            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "2", "5"));
+        if (Course.find(Course.class, "time = ? and day = ?", "2", "4").size()  > 0)
+            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "2", "4"));
         else friCourses.add(course);
 
         RowObject rowObject = new RowObject();
@@ -510,28 +521,28 @@ class RowObjectsCreator {
         String header = determineHeader(1);
 
         ArrayList<Course> monCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "1", "1") != null)
-            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "1"));
+        if (Course.find(Course.class, "time = ? and day = ?", "1", "0").size()  > 0)
+            monCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "0"));
         else monCourses.add(course);
 
         ArrayList<Course> tueCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "1", "2") != null)
-            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "2"));
+        if (Course.find(Course.class, "time = ? and day = ?", "1", "1").size()  > 0)
+            tueCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "1"));
         else tueCourses.add(course);
 
         ArrayList<Course> wedCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "1", "3") != null)
-            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "3"));
+        if (Course.find(Course.class, "time = ? and day = ?", "1", "2").size()  > 0)
+            wedCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "2"));
         else wedCourses.add(course);
 
         ArrayList<Course> thuCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "1", "4") != null)
-            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "4"));
+        if (Course.find(Course.class, "time = ? and day = ?", "1", "3").size()  > 0)
+            thuCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "3"));
         else thuCourses.add(course);
 
         ArrayList<Course> friCourses = new ArrayList<>();
-        if (Course.find(Course.class, "time = ? and day = ?", "1", "5") != null)
-            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "5"));
+        if (Course.find(Course.class, "time = ? and day = ?", "1", "4").size()  > 0)
+            friCourses.addAll(Course.find(Course.class, "time = ? and day = ?", "1", "4"));
         else friCourses.add(course);
 
         RowObject rowObject = new RowObject();
@@ -552,40 +563,40 @@ class RowObjectsCreator {
         String header = "";
         switch (i) {
             case 1:
-                header = "8:00 - 9:00";
+                header = "08:00 am";
                 break;
             case 2:
-                header = "9:00 - 10:00";
+                header = "09:00 am";
                 break;
             case 3:
-                header = "10:00 - 11:00";
+                header = "10:00 am";
                 break;
             case 4:
-                header = "11:00 - 12:00";
+                header = "11:00 am";
                 break;
             case 5:
-                header = "12:00 - 13:00";
+                header = "12:00 pm";
                 break;
             case 6:
-                header = "13:00 - 14:00";
+                header = "01:00 pm";
                 break;
             case 7:
-                header = "14:00 - 15:00";
+                header = "02:00 pm";
                 break;
             case 8:
-                header = "15:00 - 16:00";
+                header = "03:00 pm";
                 break;
             case 9:
-                header = "16:00 - 17:00";
+                header = "04:00 pm";
                 break;
             case 10:
-                header = "17:00 - 18:00";
+                header = "05:00 pm";
                 break;
             case 11:
-                header = "18:00 - 19:00";
+                header = "06:00 pm";
                 break;
             case 12:
-                header = "19:00 - 20:00";
+                header = "07:00 pm";
                 break;
         }
         return header;

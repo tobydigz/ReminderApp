@@ -1,5 +1,6 @@
 package com.digzdigital.reminderapp.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private ActivityLoginBinding binding;
     private FirebaseAuth auth;
-
+private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             switchActivity(MainActivity.class);
         }
 
+        progressDialog = new ProgressDialog(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
         binding.btnLogin.setOnClickListener(this);
@@ -57,8 +59,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String emailText = binding.email.getText().toString().trim();
         String passwordText = binding.password.getText().toString().trim();
         if (!validate(emailText, passwordText)) return;
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.btnLogin.setEnabled(false);
+        progressDialog.setTitle("Please wait");
+        progressDialog.setMessage("Please wait, signing you in");
+        progressDialog.show();
+        // binding.btnLogin.setEnabled(false);
         auth.signInWithEmailAndPassword(emailText, passwordText).addOnCompleteListener(this, this);
     }
 
@@ -97,10 +101,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onComplete(@NonNull Task<AuthResult> task) {
-        binding.progressBar.setVisibility(View.GONE);
+        // binding.progressBar.setVisibility(View.GONE);
+        progressDialog.dismiss();
         if (!task.isSuccessful()) {
             Snackbar.make(binding.activityLogin, "Login failed", Snackbar.LENGTH_SHORT).show();
-            binding.btnLogin.setEnabled(true);
+            // binding.btnLogin.setEnabled(true);
         } else {
             switchActivity(MainActivity.class);
         }

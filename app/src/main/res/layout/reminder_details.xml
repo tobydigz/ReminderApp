@@ -12,8 +12,10 @@
         android:layout_gravity="center_horizontal"
         android:padding="8dp"
         android:text="Public Lecture"
+        android:textAllCaps="true"
         android:textSize="30sp"
         android:textStyle="bold"/>
+
     <TextView
         android:id="@+id/reminderSender"
         android:layout_width="wrap_content"
@@ -22,6 +24,7 @@
         android:layout_weight="1"
         android:text="Student Affairs"
         android:textSize="22sp"/>
+
     <TextView
         android:id="@+id/reminderVenue"
         android:layout_width="wrap_content"
@@ -34,8 +37,8 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:paddingLeft="8dp"
         android:paddingRight="8dp">
 
@@ -51,6 +54,7 @@
         <Space
             android:layout_width="16dp"
             android:layout_height="0dp"/>
+
         <TextView
             android:id="@+id/reminderDate"
             android:layout_width="wrap_content"
